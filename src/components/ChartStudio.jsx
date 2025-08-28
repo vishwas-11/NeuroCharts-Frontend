@@ -97,118 +97,118 @@
 //   };
 
 //   // Function to initialize and animate the 3D chart
-//   const init3DChart = useCallback(() => {
-//     cleanup3DChart();
-//     if (!threeDContainerRef.current || !selectedFile || !selectedXAxis || !selectedYAxis || !font) {
-//       return;
-//     }
+  // const init3DChart = useCallback(() => {
+  //   cleanup3DChart();
+  //   if (!threeDContainerRef.current || !selectedFile || !selectedXAxis || !selectedYAxis || !font) {
+  //     return;
+  //   }
 
-//     const container = threeDContainerRef.current;
-//     const scene = new THREE.Scene();
-//     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+  //   const container = threeDContainerRef.current;
+  //   const scene = new THREE.Scene();
+  //   const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
 
-//     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-//     renderer.setClearColor(0x000000, 0); // Transparent background
-//     renderer.setSize(container.clientWidth, container.clientHeight);
-//     container.appendChild(renderer.domElement);
+  //   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  //   renderer.setClearColor(0x000000, 0); // Transparent background
+  //   renderer.setSize(container.clientWidth, container.clientHeight);
+  //   container.appendChild(renderer.domElement);
 
     
-//     threeDRendererRef.current = renderer;
+  //   threeDRendererRef.current = renderer;
 
-//     const group = new THREE.Group();
-//     scene.add(group);
+  //   const group = new THREE.Group();
+  //   scene.add(group);
     
-//     // Get data and filter out invalid numbers
-//     const labels = selectedFile.data.map(row => row[selectedXAxis]);
-//     const values = selectedFile.data.map(row => parseFloat(row[selectedYAxis])).filter(value => !isNaN(value));
-//     const maxVal = Math.max(...values);
-//     const scaleFactor = maxVal > 0 ? 10 / maxVal : 0;
+  //   // Get data and filter out invalid numbers
+  //   const labels = selectedFile.data.map(row => row[selectedXAxis]);
+  //   const values = selectedFile.data.map(row => parseFloat(row[selectedYAxis])).filter(value => !isNaN(value));
+  //   const maxVal = Math.max(...values);
+  //   const scaleFactor = maxVal > 0 ? 10 / maxVal : 0;
 
-//     // Create 3D bars with dynamic colors
-//     values.forEach((value, index) => {
-//       const height = value * scaleFactor;
-//       const geometry = new THREE.BoxGeometry(0.8, height, 0.8);
-//       const material = new THREE.MeshPhongMaterial({ color: new THREE.Color(chartColors[index % chartColors.length]) });
-//       const bar = new THREE.Mesh(geometry, material);
-//       bar.position.set(index - labels.length / 2, height / 2, 0);
-//       group.add(bar);
-//       threeDObjectsRef.current.push(bar);
-//     });
+  //   // Create 3D bars with dynamic colors
+  //   values.forEach((value, index) => {
+  //     const height = value * scaleFactor;
+  //     const geometry = new THREE.BoxGeometry(0.8, height, 0.8);
+  //     const material = new THREE.MeshPhongMaterial({ color: new THREE.Color(chartColors[index % chartColors.length]) });
+  //     const bar = new THREE.Mesh(geometry, material);
+  //     bar.position.set(index - labels.length / 2, height / 2, 0);
+  //     group.add(bar);
+  //     threeDObjectsRef.current.push(bar);
+  //   });
 
-//     // Add lighting
-//     const ambientLight = new THREE.AmbientLight(0x404040, 2);
-//     scene.add(ambientLight);
-//     const pointLight = new THREE.PointLight(0xa78bfa, 1);
-//     pointLight.position.set(10, 10, 10);
-//     scene.add(pointLight);
-//     const pointLight2 = new THREE.PointLight(0x6366f1, 0.5);
-//     pointLight2.position.set(-10, 5, 5);
-//     scene.add(pointLight2);
+  //   // Add lighting
+  //   const ambientLight = new THREE.AmbientLight(0x404040, 2);
+  //   scene.add(ambientLight);
+  //   const pointLight = new THREE.PointLight(0xa78bfa, 1);
+  //   pointLight.position.set(10, 10, 10);
+  //   scene.add(pointLight);
+  //   const pointLight2 = new THREE.PointLight(0x6366f1, 0.5);
+  //   pointLight2.position.set(-10, 5, 5);
+  //   scene.add(pointLight2);
     
-//     camera.position.z = 15;
-//     camera.position.y = 5;
-//     camera.lookAt(0, 0, 0);
+  //   camera.position.z = 15;
+  //   camera.position.y = 5;
+  //   camera.lookAt(0, 0, 0);
     
-//     // Mouse rotation
-//     let isDragging = false;
-//     let previousMousePosition = {
-//         x: 0,
-//         y: 0
-//     };
-//     let autoRotate = true;
+  //   // Mouse rotation
+  //   let isDragging = false;
+  //   let previousMousePosition = {
+  //       x: 0,
+  //       y: 0
+  //   };
+  //   let autoRotate = true;
 
-//     const onMouseDown = (event) => {
-//         isDragging = true;
-//         autoRotate = false; // Stop auto-rotation when dragging starts
-//         previousMousePosition = { x: event.clientX, y: event.clientY };
-//     };
-//     const onMouseUp = () => {
-//         isDragging = false;
-//         setTimeout(() => autoRotate = true, 500); // Resume auto-rotation after a short delay
-//     };
-//     const onMouseMove = (event) => {
-//         if (!isDragging) return;
-//         const deltaMove = {
-//             x: event.clientX - previousMousePosition.x,
-//             y: event.clientY - previousMousePosition.y
-//         };
-//         const rotationSpeed = 0.005;
-//         group.rotation.y += deltaMove.x * rotationSpeed;
-//         group.rotation.x += deltaMove.y * rotationSpeed;
-//         previousMousePosition = { x: event.clientX, y: event.clientY };
-//     };
+  //   const onMouseDown = (event) => {
+  //       isDragging = true;
+  //       autoRotate = false; // Stop auto-rotation when dragging starts
+  //       previousMousePosition = { x: event.clientX, y: event.clientY };
+  //   };
+  //   const onMouseUp = () => {
+  //       isDragging = false;
+  //       setTimeout(() => autoRotate = true, 500); // Resume auto-rotation after a short delay
+  //   };
+  //   const onMouseMove = (event) => {
+  //       if (!isDragging) return;
+  //       const deltaMove = {
+  //           x: event.clientX - previousMousePosition.x,
+  //           y: event.clientY - previousMousePosition.y
+  //       };
+  //       const rotationSpeed = 0.005;
+  //       group.rotation.y += deltaMove.x * rotationSpeed;
+  //       group.rotation.x += deltaMove.y * rotationSpeed;
+  //       previousMousePosition = { x: event.clientX, y: event.clientY };
+  //   };
 
-//     renderer.domElement.addEventListener('mousedown', onMouseDown);
-//     renderer.domElement.addEventListener('mouseup', onMouseUp);
-//     renderer.domElement.addEventListener('mousemove', onMouseMove);
+  //   renderer.domElement.addEventListener('mousedown', onMouseDown);
+  //   renderer.domElement.addEventListener('mouseup', onMouseUp);
+  //   renderer.domElement.addEventListener('mousemove', onMouseMove);
 
-//     // Animation loop
-//     const animate = () => {
-//       animationFrameId.current = requestAnimationFrame(animate);
-//       if (autoRotate) {
-//         group.rotation.y += 0.002;
-//       }
-//       renderer.render(scene, camera);
-//     };
-//     animate();
+  //   // Animation loop
+  //   const animate = () => {
+  //     animationFrameId.current = requestAnimationFrame(animate);
+  //     if (autoRotate) {
+  //       group.rotation.y += 0.002;
+  //     }
+  //     renderer.render(scene, camera);
+  //   };
+  //   animate();
 
-//     const onResize = () => {
-//       if (camera && renderer) {
-//         camera.aspect = container.clientWidth / container.clientHeight;
-//         camera.updateProjectionMatrix();
-//         renderer.setSize(container.clientWidth, container.clientHeight);
-//       }
-//     };
-//     window.addEventListener('resize', onResize);
+  //   const onResize = () => {
+  //     if (camera && renderer) {
+  //       camera.aspect = container.clientWidth / container.clientHeight;
+  //       camera.updateProjectionMatrix();
+  //       renderer.setSize(container.clientWidth, container.clientHeight);
+  //     }
+  //   };
+  //   window.addEventListener('resize', onResize);
     
-//     return () => {
-//       window.removeEventListener('resize', onResize);
-//       renderer.domElement.removeEventListener('mousedown', onMouseDown);
-//       renderer.domElement.removeEventListener('mouseup', onMouseUp);
-//       renderer.domElement.removeEventListener('mousemove', onMouseMove);
-//       cleanup3DChart();
-//     };
-//   }, [selectedFile, selectedXAxis, selectedYAxis, chartColors]);
+  //   return () => {
+  //     window.removeEventListener('resize', onResize);
+  //     renderer.domElement.removeEventListener('mousedown', onMouseDown);
+  //     renderer.domElement.removeEventListener('mouseup', onMouseUp);
+  //     renderer.domElement.removeEventListener('mousemove', onMouseMove);
+  //     cleanup3DChart();
+  //   };
+  // }, [selectedFile, selectedXAxis, selectedYAxis, chartColors]);
 
 //   const generateChart = useCallback((xAxis, yAxis, chartType) => {
 //     if (!selectedFile || !selectedFile.data || selectedFile.data.length === 0) {
@@ -627,6 +627,134 @@ function ChartStudio() {
     threeDRendererRef.current = null;
   };
 
+  // const init3DChart = useCallback(() => {
+  //   cleanup3DChart();
+  //   if (!threeDContainerRef.current || !selectedFile || !selectedXAxis || !selectedYAxis || !font) {
+  //     return;
+  //   }
+
+  //   const container = threeDContainerRef.current;
+  //   const scene = new THREE.Scene();
+  //   const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+  //   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  //   renderer.setClearColor(0x000000, 0); // Transparent background
+  //   renderer.setSize(container.clientWidth, container.clientHeight);
+  //   container.appendChild(renderer.domElement);
+    
+  //   threeDRendererRef.current = renderer;
+
+  //   const group = new THREE.Group();
+  //   scene.add(group);
+    
+  //   const labels = selectedFile.data.map(row => row[selectedXAxis]);
+  //   const values = selectedFile.data.map(row => parseFloat(row[selectedYAxis])).filter(value => !isNaN(value));
+  //   const maxVal = Math.max(...values);
+  //   const scaleFactor = maxVal > 0 ? 10 / maxVal : 0;
+
+  //   values.forEach((value, index) => {
+  //     const height = value * scaleFactor;
+  //     const geometry = new THREE.BoxGeometry(0.8, height, 0.8);
+  //     const material = new THREE.MeshPhongMaterial({ color: new THREE.Color(chartColors[index % chartColors.length]) });
+  //     const bar = new THREE.Mesh(geometry, material);
+  //     bar.position.set(index - labels.length / 2, height / 2, 0);
+  //     group.add(bar);
+  //     threeDObjectsRef.current.push(bar);
+  //   });
+
+  //   const ambientLight = new THREE.AmbientLight(0x404040, 2);
+  //   scene.add(ambientLight);
+  //   const pointLight = new THREE.PointLight(0xa78bfa, 1);
+  //   pointLight.position.set(10, 10, 10);
+  //   scene.add(pointLight);
+  //   const pointLight2 = new THREE.PointLight(0x6366f1, 0.5);
+  //   pointLight2.position.set(-10, 5, 5);
+  //   scene.add(pointLight2);
+    
+  //   const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  //   const textParams = {
+  //       font: font,
+  //       size: 0.5,
+  //       height: 0.1,
+  //   };
+
+  //   labels.forEach((label, index) => {
+  //       const textGeometry = new TextGeometry(String(label), textParams);
+  //       const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  //       textMesh.position.set(index - labels.length / 2, -1, 0);
+  //       textMesh.rotation.x = -Math.PI / 2;
+  //       group.add(textMesh);
+  //   });
+
+  //   const yAxisLabelText = new TextGeometry(selectedYAxis, textParams);
+  //   const yAxisLabelMesh = new THREE.Mesh(yAxisLabelText, textMaterial);
+  //   yAxisLabelMesh.position.set(-labels.length / 2 - 2, 5, 0);
+  //   yAxisLabelMesh.rotation.y = Math.PI / 2;
+  //   group.add(yAxisLabelMesh);
+
+  //   camera.position.z = 15;
+  //   camera.position.y = 5;
+  //   camera.lookAt(0, 0, 0);
+    
+  //   let isDragging = false;
+  //   let previousMousePosition = {
+  //       x: 0,
+  //       y: 0
+  //   };
+  //   let autoRotate = true;
+
+  //   const onMouseDown = (event) => {
+  //       isDragging = true;
+  //       autoRotate = false;
+  //       previousMousePosition = { x: event.clientX, y: event.clientY };
+  //   };
+  //   const onMouseUp = () => {
+  //       isDragging = false;
+  //       setTimeout(() => autoRotate = true, 500);
+  //   };
+  //   const onMouseMove = (event) => {
+  //       if (!isDragging) return;
+  //       const deltaMove = {
+  //           x: event.clientX - previousMousePosition.x,
+  //           y: event.clientY - previousMousePosition.y
+  //       };
+  //       const rotationSpeed = 0.005;
+  //       group.rotation.y += deltaMove.x * rotationSpeed;
+  //       group.rotation.x += deltaMove.y * rotationSpeed;
+  //       previousMousePosition = { x: event.clientX, y: event.clientY };
+  //   };
+
+  //   renderer.domElement.addEventListener('mousedown', onMouseDown);
+  //   renderer.domElement.addEventListener('mouseup', onMouseUp);
+  //   renderer.domElement.addEventListener('mousemove', onMouseMove);
+
+  //   const animate = () => {
+  //     animationFrameId.current = requestAnimationFrame(animate);
+  //     if (autoRotate) {
+  //       group.rotation.y += 0.002;
+  //     }
+  //     renderer.render(scene, camera);
+  //   };
+  //   animate();
+
+  //   const onResize = () => {
+  //     if (camera && renderer) {
+  //       camera.aspect = container.clientWidth / container.clientHeight;
+  //       camera.updateProjectionMatrix();
+  //       renderer.setSize(container.clientWidth, container.clientHeight);
+  //     }
+  //   };
+  //   window.addEventListener('resize', onResize);
+    
+  //   return () => {
+  //     window.removeEventListener('resize', onResize);
+  //     renderer.domElement.removeEventListener('mousedown', onMouseDown);
+  //     renderer.domElement.removeEventListener('mouseup', onMouseUp);
+  //     renderer.domElement.removeEventListener('mousemove', onMouseMove);
+  //     cleanup3DChart();
+  //   };
+  // }, [selectedFile, selectedXAxis, selectedYAxis, chartColors, font]);
+
+
   const init3DChart = useCallback(() => {
     cleanup3DChart();
     if (!threeDContainerRef.current || !selectedFile || !selectedXAxis || !selectedYAxis || !font) {
@@ -636,21 +764,25 @@ function ChartStudio() {
     const container = threeDContainerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setClearColor(0x000000, 0); // Transparent background
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
+
     
     threeDRendererRef.current = renderer;
 
     const group = new THREE.Group();
     scene.add(group);
     
+    // Get data and filter out invalid numbers
     const labels = selectedFile.data.map(row => row[selectedXAxis]);
     const values = selectedFile.data.map(row => parseFloat(row[selectedYAxis])).filter(value => !isNaN(value));
     const maxVal = Math.max(...values);
     const scaleFactor = maxVal > 0 ? 10 / maxVal : 0;
 
+    // Create 3D bars with dynamic colors
     values.forEach((value, index) => {
       const height = value * scaleFactor;
       const geometry = new THREE.BoxGeometry(0.8, height, 0.8);
@@ -661,6 +793,7 @@ function ChartStudio() {
       threeDObjectsRef.current.push(bar);
     });
 
+    // Add lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 2);
     scene.add(ambientLight);
     const pointLight = new THREE.PointLight(0xa78bfa, 1);
@@ -670,31 +803,11 @@ function ChartStudio() {
     pointLight2.position.set(-10, 5, 5);
     scene.add(pointLight2);
     
-    const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const textParams = {
-        font: font,
-        size: 0.5,
-        height: 0.1,
-    };
-
-    labels.forEach((label, index) => {
-        const textGeometry = new TextGeometry(String(label), textParams);
-        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-        textMesh.position.set(index - labels.length / 2, -1, 0);
-        textMesh.rotation.x = -Math.PI / 2;
-        group.add(textMesh);
-    });
-
-    const yAxisLabelText = new TextGeometry(selectedYAxis, textParams);
-    const yAxisLabelMesh = new THREE.Mesh(yAxisLabelText, textMaterial);
-    yAxisLabelMesh.position.set(-labels.length / 2 - 2, 5, 0);
-    yAxisLabelMesh.rotation.y = Math.PI / 2;
-    group.add(yAxisLabelMesh);
-
     camera.position.z = 15;
     camera.position.y = 5;
     camera.lookAt(0, 0, 0);
     
+    // Mouse rotation
     let isDragging = false;
     let previousMousePosition = {
         x: 0,
@@ -704,12 +817,12 @@ function ChartStudio() {
 
     const onMouseDown = (event) => {
         isDragging = true;
-        autoRotate = false;
+        autoRotate = false; // Stop auto-rotation when dragging starts
         previousMousePosition = { x: event.clientX, y: event.clientY };
     };
     const onMouseUp = () => {
         isDragging = false;
-        setTimeout(() => autoRotate = true, 500);
+        setTimeout(() => autoRotate = true, 500); // Resume auto-rotation after a short delay
     };
     const onMouseMove = (event) => {
         if (!isDragging) return;
@@ -727,6 +840,7 @@ function ChartStudio() {
     renderer.domElement.addEventListener('mouseup', onMouseUp);
     renderer.domElement.addEventListener('mousemove', onMouseMove);
 
+    // Animation loop
     const animate = () => {
       animationFrameId.current = requestAnimationFrame(animate);
       if (autoRotate) {
@@ -752,7 +866,9 @@ function ChartStudio() {
       renderer.domElement.removeEventListener('mousemove', onMouseMove);
       cleanup3DChart();
     };
-  }, [selectedFile, selectedXAxis, selectedYAxis, chartColors, font]);
+  }, [selectedFile, selectedXAxis, selectedYAxis, chartColors]);
+
+
 
   const generateChart = useCallback((xAxis, yAxis, chartType) => {
     if (!selectedFile || !selectedFile.data || selectedFile.data.length === 0) {
