@@ -1,8 +1,19 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/auth/';
-const EXCEL_API_URL = 'http://localhost:3000/api/excel/';
-const ADMIN_API_URL = 'http://localhost:3000/api/admin/';
+// const API_URL = 'http://localhost:3000/api/auth/';
+// const EXCEL_API_URL = 'http://localhost:3000/api/excel/';
+// const ADMIN_API_URL = 'http://localhost:3000/api/admin/';
+
+
+/* global process */
+
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
+const API_URL = `${BASE_URL}/api/auth/`;
+const EXCEL_API_URL = `${BASE_URL}/api/excel/`;
+const ADMIN_API_URL = `${BASE_URL}/api/admin/`;
+
+
 
 const getToken = () => localStorage.getItem('token');
 
